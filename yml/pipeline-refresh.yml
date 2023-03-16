@@ -1,0 +1,28 @@
+---
+resources:
+- name: test-repo
+  type: git
+  icon: github
+  source:
+    uri: https://github.com/tommy-mcgee/exampletest
+
+jobs:
+- name: test-btrfs-test
+  public: true
+  plan:
+  - get: test-repo
+    trigger: true
+  - task: add-one
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: 0.0.0.0:5000/myimage
+          tag: latest
+      run:
+        path: /bin/sh
+        args:
+        - -c
+        - |
+          uname
